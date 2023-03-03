@@ -39,12 +39,13 @@ class _HomePageState extends State<HomePage> {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
+              final id = item['_id'];
 
               return Slidable(
                 startActionPane: ActionPane(
                   children: [
                     SlidableAction(
-                      onPressed: (context) => deleteitems(),
+                      onPressed: (context) => deleteitems(id),
                       backgroundColor: Colors.red,
                       label: 'Delete',
                       icon: Icons.delete,
@@ -70,7 +71,17 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  void deleteitems() {}
+  Future<void> deleteitems(String id) async {
+    var url = 'https://api.nstack.in/v1/todos/$id';
+    http.Response response = await http.delete(Uri.parse(url));
+    if (response.statusCode == 200) {
+      setState(() {
+        getData();
+      });
+    } else {
+      print('Eroor');
+    }
+  }
 
   Future<void> getData() async {
     var url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
