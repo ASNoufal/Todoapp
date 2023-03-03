@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:todooapp/screens/addnotes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
-import 'addnotes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,26 +33,25 @@ class _HomePageState extends State<HomePage> {
                         notes: 'AddNotes',
                       ))));
             }),
-        body: SafeArea(
-            child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
+        body: RefreshIndicator(
+          onRefresh: getData,
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
 
-            return Slidable(
-              startActionPane: ActionPane(
-                children: [
-                  SlidableAction(
-                    onPressed: (context) => deleteitems(),
-                    backgroundColor: Colors.red,
-                    label: 'Delete',
-                    icon: Icons.delete,
-                  )
-                ],
-                motion: DrawerMotion(),
-              ),
-              child: RefreshIndicator(
-                onRefresh: getData,
+              return Slidable(
+                startActionPane: ActionPane(
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) => deleteitems(),
+                      backgroundColor: Colors.red,
+                      label: 'Delete',
+                      icon: Icons.delete,
+                    )
+                  ],
+                  motion: DrawerMotion(),
+                ),
                 child: ListTile(
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -66,10 +64,10 @@ class _HomePageState extends State<HomePage> {
                   title: Text(item['title']),
                   subtitle: Text(item['description']),
                 ),
-              ),
-            );
-          },
-        )));
+              );
+            },
+          ),
+        ));
   }
 
   void deleteitems() {}
