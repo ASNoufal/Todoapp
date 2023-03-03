@@ -28,10 +28,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => AddNotes(
-                        notes: 'AddNotes',
-                      ))));
+              navigatetonextpage();
             }),
         body: RefreshIndicator(
           onRefresh: getData,
@@ -51,15 +48,13 @@ class _HomePageState extends State<HomePage> {
                       icon: Icons.delete,
                     )
                   ],
-                  motion: DrawerMotion(),
+                  motion: StretchMotion(),
                 ),
                 child: ListTile(
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) =>
-                              AddNotes(notes: 'EditNotes'))));
+                      navigatetoeditpage(item);
                     },
                   ),
                   title: Text(item['title']),
@@ -75,8 +70,9 @@ class _HomePageState extends State<HomePage> {
     var url = 'https://api.nstack.in/v1/todos/$id';
     http.Response response = await http.delete(Uri.parse(url));
     if (response.statusCode == 200) {
+      final delete = items.where((element) => element['_id'] != id).toList();
       setState(() {
-        getData();
+        items = delete;
       });
     } else {
       print('Eroor');
@@ -84,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getData() async {
-    var url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
+    var url = 'https://api.nstack.in/v1/todos?page=1&limit=20';
     http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var data = response.body;
@@ -95,5 +91,21 @@ class _HomePageState extends State<HomePage> {
     } else {
       print('Eroor');
     }
+  }
+
+  Future<void> navigatetonextpage() async {
+    final route = MaterialPageRoute(
+      builder: (context) => AddNotes(),
+    );
+    await Navigator.of(context).push(route);
+    getData();
+  }
+
+  Future<void> navigatetoeditpage(Map item) async {
+    final route = MaterialPageRoute(
+      builder: (context) => AddNotes(todo: item),
+    );
+    await Navigator.of(context).push(route);
+    getData();
   }
 }
