@@ -24,44 +24,60 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Notes')),
+        appBar: AppBar(
+          title: const Text(
+            'Notes',
+          ),
+          backgroundColor: Colors.green[200],
+        ),
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
+            backgroundColor: Colors.green[300],
+            child: const Icon(Icons.add),
             onPressed: () {
               navigatetonextpage();
             }),
         body: RefreshIndicator(
           onRefresh: getData,
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              final id = item['_id'];
+          child: Visibility(
+            visible: items.isNotEmpty,
+            replacement: const Center(
+              child: Text('No Notes'),
+            ),
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final id = item['_id'];
 
-              return Slidable(
-                startActionPane: ActionPane(
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) => deleteitems(id),
-                      backgroundColor: Colors.red,
-                      label: 'Delete',
-                      icon: Icons.delete,
-                    )
-                  ],
-                  motion: StretchMotion(),
-                ),
-                child: ListTile(
-                  trailing: IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      navigatetoeditpage(item);
-                    },
+                return Slidable(
+                  startActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) => deleteitems(id),
+                        backgroundColor:
+                            const Color.fromARGB(255, 237, 114, 106),
+                        label: 'Delete',
+                        icon: Icons.delete,
+                      )
+                    ],
                   ),
-                  title: Text(item['title']),
-                  subtitle: Text(item['description']),
-                ),
-              );
-            },
+                  child: Card(
+                    color: Colors.green[200],
+                    child: ListTile(
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          navigatetoeditpage(item);
+                        },
+                      ),
+                      title: Text(item['title']),
+                      subtitle: Text(item['description']),
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ));
   }
@@ -75,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         items = delete;
       });
     } else {
-      print('Eroor');
+      showSnackBar('Eroor');
     }
   }
 
@@ -89,13 +105,13 @@ class _HomePageState extends State<HomePage> {
         items;
       });
     } else {
-      print('Eroor');
+      showSnackBar('Eroor');
     }
   }
 
   Future<void> navigatetonextpage() async {
     final route = MaterialPageRoute(
-      builder: (context) => AddNotes(),
+      builder: (context) => const AddNotes(),
     );
     await Navigator.of(context).push(route);
     getData();
@@ -107,5 +123,16 @@ class _HomePageState extends State<HomePage> {
     );
     await Navigator.of(context).push(route);
     getData();
+  }
+
+  void showSnackBar(String notes) {
+    final snackBar = SnackBar(
+      content: Text(
+        notes,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green[300],
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -12,18 +12,14 @@ class _LetStartPageState extends State<LetStartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Todo App',
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 0,
+        backgroundColor: Colors.green[200],
+        title: const Text('Todo App',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
       ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
@@ -36,28 +32,29 @@ class _LetStartPageState extends State<LetStartPage> {
           children: [
             const ListTile(
               title: Text("Welcome to TodoApp",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21)),
               subtitle: Text(
                 'Todo will helps you to create,\nEdit,Delete the notes',
+                style: TextStyle(color: Colors.grey),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                 onTap: (() {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => HomePage())));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => const HomePage())));
                 }),
                 child: Container(
                   width: 300,
                   height: 70,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.green[300],
                       borderRadius: BorderRadius.circular(8)),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Lets'Start",
                       style: TextStyle(

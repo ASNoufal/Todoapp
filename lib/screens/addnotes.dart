@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddNotes extends StatefulWidget {
-  Map? todo;
-  AddNotes({super.key, this.todo});
+  final Map? todo;
+  const AddNotes({super.key, this.todo});
 
   @override
   State<AddNotes> createState() => _AddNotesState();
@@ -28,11 +28,11 @@ class _AddNotesState extends State<AddNotes> {
     }
   }
 
-  // key will help to change to one to another
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[200],
         title: Text(isEdit ? 'Edit Notes' : 'AddNotes'),
       ),
       body: Column(
@@ -41,7 +41,7 @@ class _AddNotesState extends State<AddNotes> {
             padding: const EdgeInsets.all(15.0),
             child: TextField(
               controller: titleController,
-              decoration: InputDecoration(hintText: 'Title'),
+              decoration: const InputDecoration(hintText: 'Title'),
             ),
           ),
           Padding(
@@ -49,7 +49,7 @@ class _AddNotesState extends State<AddNotes> {
             child: TextField(
               controller: descriptionController,
               maxLength: 100,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Description',
               ),
               keyboardType: TextInputType.multiline,
@@ -58,12 +58,11 @@ class _AddNotesState extends State<AddNotes> {
             ),
           ),
           ElevatedButton(
-              onPressed: () {
-                isEdit ? updateData() : submitData();
-                Navigator.of(context).pop();
-                setState(() {});
-              },
-              child: Text(isEdit ? 'Update' : 'Submit'))
+            onPressed: () {
+              isEdit ? updateData() : submitData();
+            },
+            child: Text(isEdit ? 'Update' : 'Submit'),
+          )
         ],
       ),
     );
@@ -88,9 +87,10 @@ class _AddNotesState extends State<AddNotes> {
     http.Response response = await http.put(Uri.parse(url),
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      print(response.body);
+      showSnackBarid('UPDATE SUCCESFULLY');
+      Navigator.of(context).pop();
     } else {
-      print('Eroor');
+      showSnackBarid('Eroor');
     }
   }
 
@@ -107,9 +107,21 @@ class _AddNotesState extends State<AddNotes> {
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 201) {
-      print(response.body);
+      showSnackBarid('SUBMIT SUCCESFULLY');
+      Navigator.of(context).pop();
     } else {
-      print('Eroor');
+      showSnackBarid('Eroor');
     }
+  }
+
+  void showSnackBarid(String notes) {
+    final snackBar = SnackBar(
+      content: Text(
+        notes,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green[300],
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
