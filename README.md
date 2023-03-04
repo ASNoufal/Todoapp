@@ -1,16 +1,8 @@
 # todooapp
 
-A new Flutter project.
+A basic notes app made with Flutter 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_1677908667](https://user-images.githubusercontent.com/118522350/222878414-22df9f92-ba8a-45cb-b74f-c37fa0344fae.png)
+![Screenshot_1677908672](https://user-images.githubusercontent.com/118522350/222878420-d79e4725-bd05-46a9-820b-fa183f111a15.png)
+![Screenshot_1677908704](https://user-images.githubusercontent.com/118522350/222878421-caf37547-a3dd-4019-8033-71d366e80e2e.png)
+![Screenshot_1677908711](https://user-images.githubusercontent.com/118522350/222878424-296800d4-54d5-4468-a517-fd715f24a0b0.png)
