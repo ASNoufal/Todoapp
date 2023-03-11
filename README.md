@@ -1,6 +1,6 @@
 # Todo app
 
-A basic notes app made with Flutter 
+A basic notes app made with Flutter.
 
 ## ScreenShots
 
